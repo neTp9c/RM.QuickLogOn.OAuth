@@ -25,10 +25,32 @@ namespace RM.QuickLogOn.OAuth.Services
             return Encoding.UTF8.GetString(service.Decode(Convert.FromBase64String(value)));
         }
 
+        public static string HMACSHA1(string text, string passKey)
+        {
+            var provider = new System.Security.Cryptography.HMACSHA1(Encoding.ASCII.GetBytes(passKey));
+            provider.Initialize();
+            var binary = provider.ComputeHash(Encoding.ASCII.GetBytes(text));
+            return Convert.ToBase64String(binary);
+        }
+
         public static T FromJson<T>(Stream stream) where T : class
         {
             var js = new DataContractJsonSerializer(typeof(T));
             return js.ReadObject(stream) as T;
+        }
+
+        public static string ReadWebExceptionMessage(Exception ex)
+        {
+            var wex = ex as WebException;
+            if (wex != null && wex.Response != null)
+            {
+                using (var stream = wex.Response.GetResponseStream())
+                using (var sr = new StreamReader(stream))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+            return null;
         }
 
         public static IWebProxy GetProxy()

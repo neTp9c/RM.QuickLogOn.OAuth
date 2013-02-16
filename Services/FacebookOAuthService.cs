@@ -70,7 +70,7 @@ namespace RM.QuickLogOn.OAuth.Services
                     var result = HttpUtility.ParseQueryString(sr.ReadToEnd());
                     return result["access_token"];
                 }
-            }
+                }
             catch (Exception ex)
             {
                 var wex = ex as WebException;

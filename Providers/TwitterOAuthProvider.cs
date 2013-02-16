@@ -5,6 +5,7 @@ using System.Text;
 using Orchard;
 using Orchard.Environment.Extensions;
 using RM.QuickLogOn.Providers;
+using System.Web.Mvc;
 
 namespace RM.QuickLogOn.OAuth.Providers
 {
@@ -23,7 +24,10 @@ namespace RM.QuickLogOn.OAuth.Providers
 
         public string GetLogOnUrl(WorkContext context)
         {
-            return "http://www.twitter.com";
+            var urlHelper = new UrlHelper(context.HttpContext.Request.RequestContext);
+            var returnUrl = context.HttpContext.Request.Url;
+            var redirectUrl = urlHelper.Action("RequestToken", "TwitterOAuth", new { Area = "RM.QuickLogOn.OAuth", ReturnUrl = returnUrl });
+            return redirectUrl;
         }
     }
 }

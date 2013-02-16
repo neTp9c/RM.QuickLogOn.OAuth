@@ -10,7 +10,7 @@ Description: Set of Quick LogOn OAuth providers. Google, Windows LiveID and Face
 FeatureName: Quick LogOn with Google OAuth
 Features:
     RM.QuickLogOn.OAuth.Twitter:
-        Name: Quick LogOn with Twitter OAuth [Coming soon]
+        Name: Quick LogOn with Twitter OAuth
         Category: Security
 		Dependencies: RM.QuickLogOn
     RM.QuickLogOn.OAuth.Facebook:

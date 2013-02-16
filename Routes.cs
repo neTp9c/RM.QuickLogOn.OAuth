@@ -78,4 +78,25 @@ namespace RM.QuickLogOn.OAuth
             };
         }
     }
+
+    [OrchardFeature("RM.QuickLogOn.OAuth.Twitter")]
+    public class TwitterRoutes : Routes
+    {
+        public override IEnumerable<RouteDescriptor> GetRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor 
+                {    
+                    Priority = 10,
+                    Route = new Route(
+                        "QuickLogOn/TWAuth",
+                        new RouteValueDictionary { {"area", "RM.QuickLogOn.OAuth"}, {"controller", "TwitterOAuth"}, {"action", "Auth"}, },
+                        new RouteValueDictionary (),
+                        new RouteValueDictionary { {"area", "RM.QuickLogOn.OAuth"} },
+                        new MvcRouteHandler())
+                }
+            };
+        }
+    }
 }

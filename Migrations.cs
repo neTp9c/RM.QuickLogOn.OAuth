@@ -45,4 +45,19 @@ namespace RM.QuickLogOn.OAuth
             return 1;
         }
     }
+
+    [OrchardFeature("RM.QuickLogOn.OAuth.Twitter")]
+    public class TwitterMigrations : DataMigrationImpl
+    {
+        public int Create()
+        {
+            SchemaBuilder.CreateTable(
+                "TwitterSettingsPartRecord",
+                table => table.ContentPartRecord()
+                              .Column("ConsumerKey", DbType.String, command => command.WithLength(512))
+                              .Column("AccessToken", DbType.String, command => command.WithLength(512))
+                              .Column("EncryptedConsumerSecret", DbType.String, command => command.WithLength(512)));
+            return 1;
+        }
+    }
 }
