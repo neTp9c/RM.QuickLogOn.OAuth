@@ -2,11 +2,11 @@ Name: RM.QuickLogOn.OAuth
 AntiForgery: enabled
 Author: Maxim Rich
 Website: http://www.richmaxim.com
-Version: 1.0.6
-OrchardVersion: 1.6
+Version: 1.0.7
+OrchardVersion: 1.7
 Dependencies: RM.QuickLogOn
 Category: Security
-Description: Set of Quick LogOn OAuth providers. Google, Windows LiveID and Facebook OAuth are available at this time.
+Description: Set of Quick LogOn OAuth providers. Google, Windows LiveID, LinkedIn and Facebook OAuth are available at this time.
 FeatureName: Quick LogOn with Google OAuth
 Features:
     RM.QuickLogOn.OAuth.Twitter:
@@ -19,5 +19,9 @@ Features:
 		Dependencies: RM.QuickLogOn
     RM.QuickLogOn.OAuth.LiveID:
         Name: Quick LogOn with Windows LiveID OAuth
+        Category: Security
+		Dependencies: RM.QuickLogOn
+    RM.QuickLogOn.OAuth.LinkedIn:
+        Name: Quick LogOn with LinkedIn OAuth
         Category: Security
 		Dependencies: RM.QuickLogOn

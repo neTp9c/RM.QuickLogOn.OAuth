@@ -9,6 +9,7 @@ using Orchard.Environment.Extensions;
 using RM.QuickLogOn.OAuth.Models;
 using RM.QuickLogOn.Providers;
 using System.Web.Mvc;
+using Orchard.Localization;
 
 namespace RM.QuickLogOn.OAuth.Providers
 {
@@ -17,14 +18,16 @@ namespace RM.QuickLogOn.OAuth.Providers
     {
         public const string Url = "https://login.live.com/oauth20_authorize.srf?client_id={0}&scope=wl.signin,wl.emails&response_type=code&redirect_uri={1}";
 
+        private Localizer T = NullLocalizer.Instance;
+
         public string Name
         {
-            get { return "LiveID"; }
+            get { return T("LiveID").ToString(); }
         }
 
         public string Description
         {
-            get { return "LogOn with Your LiveID account"; }
+            get { return T("LogOn with Your LiveID account").ToString(); }
         }
 
         public string GetLogOnUrl(WorkContext context)

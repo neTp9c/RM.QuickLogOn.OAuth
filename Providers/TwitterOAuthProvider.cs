@@ -6,20 +6,23 @@ using Orchard;
 using Orchard.Environment.Extensions;
 using RM.QuickLogOn.Providers;
 using System.Web.Mvc;
+using Orchard.Localization;
 
 namespace RM.QuickLogOn.OAuth.Providers
 {
     [OrchardFeature("RM.QuickLogOn.OAuth.Twitter")]
     public class TwitterOAuthProvider : IQuickLogOnProvider
     {
+        private Localizer T = NullLocalizer.Instance;
+
         public string Name
         {
-            get { return "Twitter"; }
+            get { return T("Twitter").ToString(); }
         }
 
         public string Description
         {
-            get { return "LogOn with Your Twitter account"; }
+            get { return T("LogOn with Your Twitter account").ToString(); }
         }
 
         public string GetLogOnUrl(WorkContext context)

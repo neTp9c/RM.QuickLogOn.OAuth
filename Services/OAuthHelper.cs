@@ -10,6 +10,8 @@ using Orchard;
 using Orchard.Localization;
 using Orchard.Logging;
 using Orchard.Security;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace RM.QuickLogOn.OAuth.Services
 {
@@ -37,6 +39,12 @@ namespace RM.QuickLogOn.OAuth.Services
         {
             var js = new DataContractJsonSerializer(typeof(T));
             return js.ReadObject(stream) as T;
+        }
+        
+        public static T FromXml<T>(Stream stream) where T : class
+        {
+            var xml = new XmlSerializer(typeof(T));
+            return xml.Deserialize(stream) as T;
         }
 
         public static string ReadWebExceptionMessage(Exception ex)

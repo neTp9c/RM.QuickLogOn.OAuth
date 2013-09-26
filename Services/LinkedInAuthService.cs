@@ -19,16 +19,16 @@ using RM.QuickLogOn.Services;
 
 namespace RM.QuickLogOn.OAuth.Services
 {
-    public interface ILiveIDOAuthService : IDependency
+    public interface ILinkedInOAuthService : IDependency
     {
         QuickLogOnResponse Auth(WorkContext wc, string code, string error, string returnUrl);
     }
 
-    [OrchardFeature("RM.QuickLogOn.OAuth.LiveID")]
-    public class LiveIDOAuthService : ILiveIDOAuthService
+    [OrchardFeature("RM.QuickLogOn.OAuth.LinkedIn")]
+    public class LinkedInOAuthService : ILinkedInOAuthService
     {
-        public const string TokenRequestUrl = "https://login.live.com/oauth20_token.srf?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}&grant_type=authorization_code";
-        public const string EmailRequestUrl = "https://apis.live.net/v5.0/me?access_token={0}";
+        public const string TokenRequestUrl = "https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code={3}&redirect_uri={1}&client_id={0}&client_secret={2}";
+        public const string EmailRequestUrl = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address)?oauth2_access_token={0}";
 
         private readonly IQuickLogOnService _quickLogOnService;
         private readonly IEncryptionService _oauthHelper;
@@ -36,7 +36,7 @@ namespace RM.QuickLogOn.OAuth.Services
         public Localizer T { get; set; }
         public ILogger Logger { get; set; }
 
-        public LiveIDOAuthService(IEncryptionService oauthHelper, IQuickLogOnService quickLogOnService)
+        public LinkedInOAuthService(IEncryptionService oauthHelper, IQuickLogOnService quickLogOnService)
         {
             _quickLogOnService = quickLogOnService;
             _oauthHelper = oauthHelper;
@@ -48,22 +48,23 @@ namespace RM.QuickLogOn.OAuth.Services
         {
             try
             {
-                var part = wc.CurrentSite.As<LiveIDSettingsPart>();
+                var part = wc.CurrentSite.As<LinkedInSettingsPart>();
                 var clientId = part.ClientId;
                 var clientSecret = _oauthHelper.Decrypt(part.Record.EncryptedClientSecret);
 
                 var urlHelper = new UrlHelper(wc.HttpContext.Request.RequestContext);
                 var redirectUrl =
                     new Uri(wc.HttpContext.Request.Url,
-                            urlHelper.Action("Auth", "LiveIDOAuth", new { Area = "RM.QuickLogOn.OAuth", ReturnUrl = returnUrl })).ToString();
+                            urlHelper.Action("Auth", "LinkedInOAuth", new { Area = "RM.QuickLogOn.OAuth", ReturnUrl = returnUrl })).ToString(); //
 
-                var url = string.Format(TokenRequestUrl, 
-                                        urlHelper.Encode(clientId), 
-                                        urlHelper.Encode(redirectUrl), 
-                                        urlHelper.Encode(clientSecret), 
+                var url = string.Format(TokenRequestUrl,
+                                        urlHelper.Encode(clientId),
+                                        urlHelper.Encode(redirectUrl),
+                                        urlHelper.Encode(clientSecret),
                                         urlHelper.Encode(code));
 
                 var wr = WebRequest.Create(url);
+                wr.Method = "POST";
                 wr.Proxy = OAuthHelper.GetProxy();
 
                 //if (ServicePointManager.ServerCertificateValidationCallback == null) ServicePointManager.ServerCertificateValidationCallback = ((sender, cert, chain, errors) => true);
@@ -71,7 +72,7 @@ namespace RM.QuickLogOn.OAuth.Services
                 var wres = wr.GetResponse();
                 using (var stream = wres.GetResponseStream())
                 {
-                    var result = OAuthHelper.FromJson<LiveIDAccessTokenJsonModel>(stream);
+                    var result = OAuthHelper.FromJson<LinkedInAccessTokenJsonModel>(stream);
                     return result.access_token;
                 }
             }
@@ -93,8 +94,8 @@ namespace RM.QuickLogOn.OAuth.Services
                 var wres = wr.GetResponse();
                 using (var stream = wres.GetResponseStream())
                 {
-                    var result = OAuthHelper.FromJson<LiveIDEmailAddressJsonViewModel>(stream);
-                    return result != null && result.emails != null ? result.emails.preferred ?? (result.emails.account ?? (result.emails.personal ?? result.emails.personal)) : null;
+                    var result = OAuthHelper.FromXml<LinkedInEmailAddressXmlViewModel>(stream);
+                    return result != null && result.email_address != null ? result.email_address : null;
                 }
             }
             catch (Exception ex)

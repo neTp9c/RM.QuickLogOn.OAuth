@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Environment.Extensions;
+using Orchard.Localization;
 using RM.QuickLogOn.OAuth.Models;
 using RM.QuickLogOn.Providers;
 
@@ -16,14 +17,21 @@ namespace RM.QuickLogOn.OAuth.Providers
     {
         public const string Url = "https://www.facebook.com/dialog/oauth?client_id={0}&response_type=code&scope=email&redirect_uri={1}&state={2}";
 
+        public Localizer T { get; set; }
+
+        public FacebookOAuthProvider()
+        {
+            T = NullLocalizer.Instance;
+        }
+
         public string Name
         {
-            get { return "Facebook"; }
+            get { return T("Facebook").ToString(); }
         }
 
         public string Description
         {
-            get { return "LogOn with Your Facebook account"; }
+            get { return T("LogOn with Your Facebook account").ToString(); }
         }
 
         public string GetLogOnUrl(WorkContext context)

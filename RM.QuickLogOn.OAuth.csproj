@@ -57,12 +57,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\LinkedInOAuthController.cs" />
     <Compile Include="Controllers\FacebookOAuthController.cs" />
     <Compile Include="Controllers\LiveIDOAuthController.cs" />
     <Compile Include="Controllers\GoogleOAuthController.cs" />
     <Compile Include="Controllers\TwitterOAuthController.cs" />
+    <Compile Include="Drivers\LinkedInSettingsPartDriver.cs" />
     <Compile Include="Drivers\TwitterSettingsPartDriver.cs" />
     <Compile Include="Drivers\LiveIDSettingsPartDriver.cs" />
+    <Compile Include="Handlers\LinkedInSettingsPartHandler.cs" />
     <Compile Include="Handlers\TwitterSettingsPartHandler.cs" />
     <Compile Include="Handlers\LiveIDSettingsPartHandler.cs" />
     <Compile Include="Drivers\FacebookSettingsPartDriver.cs" />
@@ -71,6 +74,8 @@
     <Compile Include="Handlers\FacebookSettingsPartHandler.cs" />
     <Compile Include="Handlers\GoogleSettingsPartHandler.cs" />
     <Compile Include="Models\AccessTokenModel.cs" />
+    <Compile Include="Models\LinkedInSettingsPartRecord.cs" />
+    <Compile Include="Models\LinkedInSettingsPart.cs" />
     <Compile Include="Models\TwitterSettingsPart.cs" />
     <Compile Include="Models\TwitterSettingsPartRecord.cs" />
     <Compile Include="Models\LiveIDSettingsPart.cs" />
@@ -81,6 +86,8 @@
     <Compile Include="Models\GoogleSettingsPartRecord.cs" />
     <Compile Include="Models\RequestTokenModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Providers\LinkedInOAuthProvider.cs" />
+    <Compile Include="Services\LinkedInAuthService.cs" />
     <Compile Include="Services\OAuthHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\LiveIDOAuthProvider.cs" />
@@ -93,6 +100,9 @@
     <Compile Include="Services\FacebookOAuthService.cs" />
     <Compile Include="Services\GoogleOAuthService.cs" />
     <Compile Include="Services\TwitterOAuthService.cs" />
+    <Compile Include="ViewModels\LinkedInEmailAddressXmlViewModel.cs" />
+    <Compile Include="ViewModels\LinkedInAccessTokenJsonModel.cs" />
+    <Compile Include="ViewModels\LinkedInOAuthAuthViewModel.cs" />
     <Compile Include="ViewModels\FacebookEmailAddressJsonViewModel.cs" />
     <Compile Include="ViewModels\LiveIDEmailAddressJsonViewModel.cs" />
     <Compile Include="ViewModels\LiveIDAccessTokenJsonModel.cs" />
@@ -126,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EditorTemplates\Parts.Twitter.SiteSettings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.LinkedIn.SiteSettings.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

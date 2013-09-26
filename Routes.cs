@@ -99,4 +99,25 @@ namespace RM.QuickLogOn.OAuth
             };
         }
     }
+
+    [OrchardFeature("RM.QuickLogOn.OAuth.LinkedIn")]
+    public class LinkedInRoutes : Routes
+    {
+        public override IEnumerable<RouteDescriptor> GetRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor 
+                {    
+                    Priority = 10,
+                    Route = new Route(
+                        "QuickLogOn/LINAuth",
+                        new RouteValueDictionary { {"area", "RM.QuickLogOn.OAuth"}, {"controller", "LinkedInOAuth"}, {"action", "Auth"}, },
+                        new RouteValueDictionary (),
+                        new RouteValueDictionary { {"area", "RM.QuickLogOn.OAuth"} },
+                        new MvcRouteHandler())
+                }
+            };
+        }
+    }
 }

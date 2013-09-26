@@ -60,4 +60,18 @@ namespace RM.QuickLogOn.OAuth
             return 1;
         }
     }
+
+    [OrchardFeature("RM.QuickLogOn.OAuth.LinkedIn")]
+    public class LinkedInMigrations : DataMigrationImpl
+    {
+        public int Create()
+        {
+            SchemaBuilder.CreateTable(
+                "LinkedInSettingsPartRecord",
+                table => table.ContentPartRecord()
+                              .Column("ClientId", DbType.String, command => command.WithLength(255))
+                              .Column("EncryptedClientSecret", DbType.String, command => command.WithLength(512)));
+            return 1;
+        }
+    }
 }

@@ -110,7 +110,7 @@ namespace RM.QuickLogOn.OAuth.Services
         {
             if (string.IsNullOrEmpty(code) && string.IsNullOrEmpty(error))
             {
-                error = "invalid code";
+                error = T("invalid code").ToString();
             }
             else
             {
@@ -128,11 +128,11 @@ namespace RM.QuickLogOn.OAuth.Services
                             ReturnUrl = returnUrl
                         });
                     }
-                    error = "invalid email";
+                    error = T("invalid email").ToString();
                 }
                 else
                 {
-                    error = "invalid token";
+                    error = T("invalid token").ToString();
                 }
             }
             return new QuickLogOnResponse { Error = T("LogOn through Google failed: {0}", error), ReturnUrl = returnUrl };
