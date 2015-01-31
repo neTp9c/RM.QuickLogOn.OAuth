@@ -7,8 +7,12 @@ using System.Text;
 namespace RM.QuickLogOn.OAuth.ViewModels
 {
     [DataContract]
-    public class FacebookEmailAddressJsonViewModel
+    public class FacebookUserInfoJsonViewModel
     {
+
+        [DataMember]
+        public string name { get; set; }
+
         [DataMember]
         public string email { get; set; }
 

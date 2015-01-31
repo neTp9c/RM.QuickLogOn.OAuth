@@ -7,8 +7,11 @@ using System.Text;
 namespace RM.QuickLogOn.OAuth.ViewModels
 {
     [DataContract]
-    public class GoogleEmailAddressJsonViewModel
+    public class GoogleUserInfoJsonViewModel
     {
+        [DataMember]
+        public string name { get; set; }
+
         [DataMember]
         public string email { get; set; }
 

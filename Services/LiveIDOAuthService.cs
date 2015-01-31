@@ -83,7 +83,7 @@ namespace RM.QuickLogOn.OAuth.Services
             return null;
         }
 
-        private string GetEmailAddress(string token)
+        private LiveIDUserInfoJsonViewModel GetUserInfo(string token)
         {
             try
             {
@@ -93,8 +93,9 @@ namespace RM.QuickLogOn.OAuth.Services
                 var wres = wr.GetResponse();
                 using (var stream = wres.GetResponseStream())
                 {
-                    var result = OAuthHelper.FromJson<LiveIDEmailAddressJsonViewModel>(stream);
-                    return result != null && result.emails != null ? result.emails.preferred ?? (result.emails.account ?? (result.emails.personal ?? result.emails.personal)) : null;
+                    var result = OAuthHelper.FromJson<LiveIDUserInfoJsonViewModel>(stream);
+                    if (result != null)
+                        return result;                    
                 }
             }
             catch (Exception ex)
@@ -115,16 +116,20 @@ namespace RM.QuickLogOn.OAuth.Services
                 var token = GetAccessToken(wc, code, returnUrl);
                 if (!string.IsNullOrEmpty(token))
                 {
-                    var email = GetEmailAddress(token);
-                    if (!string.IsNullOrEmpty(email))
+                    var userInfo = GetUserInfo(token);
+                    if (userInfo != null)
                     {
-                        return _quickLogOnService.LogOn(new QuickLogOnRequest
+                        var email = (userInfo.emails != null ? userInfo.emails.preferred ?? (userInfo.emails.account ?? (userInfo.emails.personal ?? userInfo.emails.personal)) : null);
+                        if (email != null)
                         {
-                            Email = email,
-                            Login = email,
-                            RememberMe = false,
-                            ReturnUrl = returnUrl
-                        });
+                            return _quickLogOnService.LogOn(new QuickLogOnRequest
+                            {
+                                Email = email,
+                                Login = (!String.IsNullOrEmpty(userInfo.name) ? userInfo.name : email),
+                                RememberMe = false,
+                                ReturnUrl = returnUrl
+                            });
+                        }
                     }
                     error = T("invalid email").ToString();
                 }

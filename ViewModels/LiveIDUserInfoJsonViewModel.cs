@@ -7,7 +7,7 @@ using System.Text;
 namespace RM.QuickLogOn.OAuth.ViewModels
 {
     [DataContract]
-    public class LiveIDEmailAddressJsonViewModel
+    public class LiveIDUserInfoJsonViewModel
     {
         [DataContract]
         public class EmailAddresses
@@ -24,6 +24,9 @@ namespace RM.QuickLogOn.OAuth.ViewModels
             [DataMember]
             public string business { get; set; }
         }
+
+        [DataMember]
+        public string name { get; set; }
 
         [DataMember]
         public EmailAddresses emails { get; set; }

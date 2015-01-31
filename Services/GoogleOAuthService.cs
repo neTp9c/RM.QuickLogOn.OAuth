@@ -85,7 +85,7 @@ namespace RM.QuickLogOn.OAuth.Services
             return null;
         }
 
-        private string GetEmailAddress(string token)
+        private GoogleUserInfoJsonViewModel GetUserInfo(string token)
         {
             try
             {
@@ -95,8 +95,8 @@ namespace RM.QuickLogOn.OAuth.Services
                 var wres = wr.GetResponse();
                 using (var stream = wres.GetResponseStream())
                 {
-                    var result = OAuthHelper.FromJson<GoogleEmailAddressJsonViewModel>(stream);
-                    return result != null && result.verified_email ? result.email : null;
+                    var result = OAuthHelper.FromJson<GoogleUserInfoJsonViewModel>(stream);
+                    return result != null && result.verified_email ? result : null;
                 }
             }
             catch (Exception ex)
@@ -117,13 +117,13 @@ namespace RM.QuickLogOn.OAuth.Services
                 var token = GetAccessToken(wc, code);
                 if (!string.IsNullOrEmpty(token))
                 {
-                    var email = GetEmailAddress(token);
-                    if (!string.IsNullOrEmpty(email))
+                    var userInfo = GetUserInfo(token);
+                    if (userInfo != null && !String.IsNullOrEmpty(userInfo.email))
                     {
                         return _quickLogOnService.LogOn(new QuickLogOnRequest
                         {
-                            Email = email,
-                            Login = email,
+                            Email = userInfo.email,
+                            Login = (!String.IsNullOrEmpty(userInfo.name) ? userInfo.name : userInfo.email),
                             RememberMe = false,
                             ReturnUrl = returnUrl
                         });

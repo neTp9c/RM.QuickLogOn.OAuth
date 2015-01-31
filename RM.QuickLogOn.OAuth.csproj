@@ -103,13 +103,13 @@
     <Compile Include="ViewModels\LinkedInEmailAddressXmlViewModel.cs" />
     <Compile Include="ViewModels\LinkedInAccessTokenJsonModel.cs" />
     <Compile Include="ViewModels\LinkedInOAuthAuthViewModel.cs" />
-    <Compile Include="ViewModels\FacebookEmailAddressJsonViewModel.cs" />
-    <Compile Include="ViewModels\LiveIDEmailAddressJsonViewModel.cs" />
+    <Compile Include="ViewModels\FacebookUserInfoJsonViewModel.cs" />
+    <Compile Include="ViewModels\LiveIDUserInfoJsonViewModel.cs" />
     <Compile Include="ViewModels\LiveIDAccessTokenJsonModel.cs" />
     <Compile Include="ViewModels\LiveIDOAuthAuthViewModel.cs" />
     <Compile Include="ViewModels\FacebookOAuthAuthViewModel.cs" />
     <Compile Include="ViewModels\GoogleAccessTokenJsonModel.cs" />
-    <Compile Include="ViewModels\GoogleEmailAddressJsonViewModel.cs" />
+    <Compile Include="ViewModels\GoogleUserInfoJsonViewModel.cs" />
     <Compile Include="ViewModels\GoogleOAuthAuthViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
