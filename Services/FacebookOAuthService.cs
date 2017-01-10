@@ -80,7 +80,7 @@ namespace RM.QuickLogOn.OAuth.Services
             return null;
         }
 
-        public FacebookUserInfoJsonViewModel GetUserInfo(string token)
+        public string GetEmailAddress(string token)
         {
             try
             {
@@ -90,8 +90,8 @@ namespace RM.QuickLogOn.OAuth.Services
                 var wres = wr.GetResponse();
                 using (var stream = wres.GetResponseStream())
                 {
-                    var result = OAuthHelper.FromJson<FacebookUserInfoJsonViewModel>(stream);
-                    return result != null && result.verified ? result : null;
+                    var result = OAuthHelper.FromJson<FacebookEmailAddressJsonViewModel>(stream);
+                    return result != null && result.verified ? result.email : null;
                 }
             }
             catch (Exception ex)
@@ -100,6 +100,7 @@ namespace RM.QuickLogOn.OAuth.Services
             }
             return null;
         }
+
         public QuickLogOnResponse Auth(WorkContext wc, string code, string error, string returnUrl)
         {
             if (string.IsNullOrEmpty(code) && string.IsNullOrEmpty(error))
@@ -111,13 +112,13 @@ namespace RM.QuickLogOn.OAuth.Services
                 var token = GetAccessToken(wc, code, returnUrl);
                 if (!string.IsNullOrEmpty(token))
                 {
-                    var userInfo = GetUserInfo(token);
-                    if (userInfo != null && !String.IsNullOrEmpty(userInfo.email))
+                    var email = GetEmailAddress(token);
+                    if (!string.IsNullOrEmpty(email))
                     {
                         return _quickLogOnService.LogOn(new QuickLogOnRequest
                         {
-                            Email = userInfo.email,
-                            Login = (!String.IsNullOrEmpty(userInfo.name) ? userInfo.name : userInfo.email),
+                            Email = email,
+                            Login = email,
                             RememberMe = false,
                             ReturnUrl = returnUrl
                         });
